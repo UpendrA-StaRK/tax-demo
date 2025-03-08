@@ -195,8 +195,7 @@ def process_image(file):
         
         # Extract and clean JSON
         import re
-        match = re.search(r'\{.*\}', json_str, re.DOTALL)
-        if match:
+        re.search(r'\{.*?\}', json_str, re.DOTALL)  # Added '?' for non-greedy match        if match:
             json_str = match.group(0)
         else:
             st.error("Invalid JSON from AI.")
