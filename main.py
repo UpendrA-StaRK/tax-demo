@@ -9,6 +9,7 @@ import numpy as np
 from PIL import Image
 from datetime import datetime
 import warnings
+import re
 from unified_tax_system import UnifiedTaxSystem  # Added line
 
 warnings.filterwarnings('ignore')
@@ -194,14 +195,14 @@ def process_image(file):
         json_str = response.choices[0].message.content.strip()
         
         # Extract and clean JSON
-        import re
-        re.search(r'\{.*?\}', json_str, re.DOTALL)  # Added '?' for non-greedy match        if match:
+        match = re.search(r'\{.*?\}', json_str, re.DOTALL)
+        if match:
             json_str = match.group(0)
         else:
             st.error("Invalid JSON from AI.")
             return {}
-
-        return json.loads(json_str)
+        
+        return json.loads(json_str) 
 
     except Exception as e:
         st.error(f"Error processing image: {str(e)}")
